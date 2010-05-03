@@ -8,6 +8,39 @@
 -- Original script here: http://hubionmac.com/wordpress/2009/11/iphoto-raw2sonstwas-converter/#
 
 tell application "iPhoto"
+	set target_width to 0
+	set target_format to "JPEG"
+	
+	set available_formats to {"JPEG", "PNG", "JPEG2", "TIFF"}
+	set target_format to choose from list available_formats with title "Convert to: " with prompt "Convert to: " default items {"JPEG"}
+	
+	if target_format is false then
+		-- User cancelled
+		return
+	end if
+	
+	-- choose from list returns a list of items
+	set target_format to item 1 of target_format
+	
+	set userCanceled to false
+	try
+		set result to display dialog "Choose new width (0 for original size):" default answer "0" with title "Choose new width" giving up after 15
+	on error number -128
+		set userCanceled to true
+	end try
+	
+	if userCanceled then
+		return
+		-- else if gave up of result then
+		-- For now, lets just continue
+	else if button returned of result is "OK" then
+		set target_width to text returned of result as integer
+	else
+		log ("Shouldn't be in here")
+		return
+	end if
+	
+	
 	--Get selected images
 	set myPhotos to selection
 	--init some lists
@@ -22,7 +55,7 @@ tell application "iPhoto"
 		-- now this is 2 in 1 line
 		-- first it converts the current image 
 		--second it stores the converted image's path in a list
-		set newfiles to newfiles & {(my convert_image((POSIX file (image path of p)) as alias, (POSIX file ("/tmp/") & current_time_md5) as string, 0, "JPEG"))}
+		set newfiles to newfiles & {(my convert_image((POSIX file (image path of p)) as alias, (POSIX file ("/tmp/") & current_time_md5) as string, target_width, target_format))}
 		--this is an info record so later on the converted image gets the same informations (name, date, rating, etc)
 		set newfiles_record to newfiles_record & {{new_name:current_time_md5, l:(latitude of p), ll:(longitude of p), myComment:(comment of p), myName:(name of p), myTitle:(title of p), myRating:(rating of p), mydate:(date of p)}}
 		--label the orig_image, by adding _was_converted to the image's name
@@ -85,6 +118,8 @@ on convert_image(image_file, target_path, target_width, target_format)
 		else if target_format = "TIFF" then
 			set target_path to target_path & "." & target_format
 			save this_image in target_path as TIFF
+		else
+			log "Shouldn't be here: " & target_format
 		end if
 	end tell
 	return target_path as alias
