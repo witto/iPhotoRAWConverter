@@ -31,7 +31,7 @@ tell application "iPhoto"
 		end if
 	end repeat
 	-- import all converted images into iphoto in a new album
-	import from newfiles to album
+	import from newfiles to album myAlbum
 	-- do-nothing-loop until iPhoto imported all images....
 	repeat until (importing) is false
 		delay 5
