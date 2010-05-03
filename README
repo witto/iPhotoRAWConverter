@@ -1,0 +1,13 @@
+This script was originally created by HubionMac, from http://hubionmac.com/ and is being modified to meet my needs.
+The original script is here: http://hubionmac.com/wordpress/2009/11/iphoto-raw2sonstwas-converter/#
+
+My goal is to automatically convert a set of RAW images in iPhoto to JPEG, to save space.
+
+Why not shoot in JPEG in the first place? Well, besides losing the advantages of using the RAW format, 
+like having more control to fine tune the images, my camera has a couple of stuck pixels, that
+iPhoto can automatically remove when shooting RAW, but not JPEG, so it's the easiest way to
+get rid of those annoying red dots in the middle of my photos.
+
+If anyone finds this useful, please let me know.
+
+thiago.witt@gmail.com
