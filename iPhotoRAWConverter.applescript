@@ -40,7 +40,6 @@ tell application "iPhoto"
 		return
 	end if
 	
-	
 	--Get selected images
 	set myPhotos to selection
 	--init some lists
